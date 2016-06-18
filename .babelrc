@@ -1,0 +1,16 @@
+{
+  "presets": [
+    "es2015-rollup",
+    "stage-3"
+  ],
+  "plugins": [
+    "transform-runtime"
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        ["__coverage__", { "ignore": "test/" }]
+      ]
+    }
+  }
+}

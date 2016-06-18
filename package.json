@@ -1,0 +1,65 @@
+{
+  "name": "rollup-plugin-sourcemaps",
+  "version": "0.0.0",
+  "description": "Rollup plugin for grabbing source maps from sourceMappingsURLs",
+  "author": "Max Davidson <davidsonmax@gmail.com>",
+  "license": "MIT",
+  "main": "dist/rollup-plugin-sourcemaps.js",
+  "js:main": "dist/rollup-plugin-sourcemaps.esm.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maxdavidson/rollup-plugin-sourcemaps"
+  },
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 2.14.2"
+  },
+  "scripts": {
+    "clean": "rimraf dist coverage .nyc_output",
+    "prebuild": "npm run clean",
+    "build": "rollup -c",
+    "pretest": "cross-env NODE_ENV=test npm run build",
+    "test": "nyc -r html ava",
+    "test:watch": "npm run clean && nyc ava --watch & cross-env NODE_ENV=test rollup -w -c",
+    "test:coverage": "nyc report -r text-lcov | coveralls",
+    "lint": "eslint .",
+    "prepublish": "cross-env NODE_ENV=production npm run build"
+  },
+  "keywords": [
+    "rollup",
+    "rollup-plugin",
+    "es2015",
+    "sourcemap",
+    "source-map",
+    "sourceMappingsURL"
+  ],
+  "files": [
+    "dist"
+  ],
+  "nyc": {
+    "sourceMap": false,
+    "instrument": false
+  },
+  "dependencies": {
+    "babel-runtime": "^6.9.2",
+    "rollup-pluginutils": "^1.5.0"
+  },
+  "devDependencies": {
+    "ava": "^0.15.2",
+    "babel-eslint": "^6.0.4",
+    "babel-plugin-__coverage__": "^11.0.0",
+    "babel-plugin-transform-runtime": "^6.9.0",
+    "babel-preset-es2015-rollup": "^1.1.1",
+    "babel-preset-stage-3": "^6.5.0",
+    "babel-register": "^6.9.0",
+    "cross-env": "^1.0.8",
+    "eslint": "^2.13.0",
+    "eslint-config-airbnb-base": "^3.0.1",
+    "eslint-plugin-import": "^1.8.1",
+    "nyc": "^6.6.1",
+    "rimraf": "^2.5.2",
+    "rollup": "^0.31.2",
+    "rollup-plugin-babel": "^2.5.1",
+    "rollup-watch": "^2.4.0"
+  }
+}
