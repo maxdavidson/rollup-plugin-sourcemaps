@@ -1,6 +1,6 @@
 # rollup-plugin-sourcemaps
 
-[Rollup](https://http://rollupjs.org) plugin for grabbing source maps from sourceMappingURLs.
+[Rollup](https://rollupjs.org) plugin for grabbing source maps from sourceMappingURLs.
 
 Useful for working with precompiled modules with existing source maps, without resorting to [sorcery](https://github.com/Rich-Harris/sorcery).
 
