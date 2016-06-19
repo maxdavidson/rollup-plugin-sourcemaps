@@ -33,7 +33,7 @@
     "es2015",
     "sourcemap",
     "source-map",
-    "sourceMappingsURL"
+    "sourceMappingURL"
   ],
   "files": [
     "dist"
