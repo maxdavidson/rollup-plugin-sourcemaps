@@ -5,7 +5,7 @@ import { rollup } from 'rollup';
 import sourcemaps from '../';
 
 test('meta', async (t) => {
-  const entry = '../dist/rollup-plugin-sourcemaps.esm.js';
+  const entry = '../dist/rollup-plugin-sourcemaps.es.js';
 
   const bundle = await rollup({
     entry,
@@ -15,7 +15,7 @@ test('meta', async (t) => {
   });
 
   const result = bundle.generate({
-    format: 'es6',
+    format: 'es',
     sourceMap: true,
   });
 

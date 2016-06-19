@@ -18,6 +18,6 @@ export default {
   ],
   targets: [
     { dest: 'dist/rollup-plugin-sourcemaps.js', format: 'cjs' },
-    { dest: 'dist/rollup-plugin-sourcemaps.esm.js', format: 'es6' },
+    { dest: 'dist/rollup-plugin-sourcemaps.es.js', format: 'es' },
   ],
 };
