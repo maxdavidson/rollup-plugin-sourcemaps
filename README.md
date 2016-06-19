@@ -1,5 +1,6 @@
 # rollup-plugin-sourcemaps
 
+[![npm](https://img.shields.io/npm/v/rollup-plugin-sourcemaps.svg)](https://www.npmjs.com/package/rollup-plugin-sourcemaps)
 [![Build Status](https://img.shields.io/travis/maxdavidson/rollup-plugin-sourcemaps/master.svg)](https://travis-ci.org/maxdavidson/rollup-plugin-sourcemaps)
 [![Coverage Status](https://img.shields.io/coveralls/maxdavidson/rollup-plugin-sourcemaps/master.svg)](https://coveralls.io/github/maxdavidson/rollup-plugin-sourcemaps?branch=master)
 [![Dependency Status](https://img.shields.io/david/maxdavidson/rollup-plugin-sourcemaps.svg)](https://david-dm.org/maxdavidson/rollup-plugin-sourcemaps)
