@@ -12,10 +12,9 @@ export default {
     'fs',
     'path',
     'rollup-pluginutils',
+    'source-map-resolve',
     'babel-runtime/regenerator',
     'babel-runtime/core-js/promise',
-    'babel-runtime/helpers/toConsumableArray',
-    'babel-runtime/helpers/slicedToArray',
     'babel-runtime/helpers/asyncToGenerator',
   ],
   targets: [

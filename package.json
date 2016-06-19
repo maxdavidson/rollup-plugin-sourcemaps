@@ -44,7 +44,8 @@
   },
   "dependencies": {
     "babel-runtime": "^6.9.2",
-    "rollup-pluginutils": "^1.5.0"
+    "rollup-pluginutils": "^1.5.0",
+    "source-map-resolve": "^0.5.0"
   },
   "devDependencies": {
     "ava": "^0.15.2",
