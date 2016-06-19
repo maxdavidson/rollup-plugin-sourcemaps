@@ -10,7 +10,6 @@ export default {
   ],
   external: [
     'fs',
-    'path',
     'rollup-pluginutils',
     'source-map-resolve',
     'babel-runtime/regenerator',
