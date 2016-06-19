@@ -19,7 +19,7 @@
     "prebuild": "npm run clean",
     "build": "rollup -c",
     "pretest": "cross-env NODE_ENV=test npm run build",
-    "test": "nyc -r html ava",
+    "test": "nyc ava",
     "test:watch": "npm run clean && nyc ava --watch & cross-env NODE_ENV=test rollup -w -c",
     "test:coverage": "nyc report -r text-lcov | coveralls",
     "lint": "eslint .",
