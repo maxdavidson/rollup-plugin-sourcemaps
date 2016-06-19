@@ -23,7 +23,9 @@
     "test:watch": "npm run clean && nyc ava --watch & cross-env NODE_ENV=test rollup -w -c",
     "test:coverage": "nyc report -r text-lcov | coveralls",
     "lint": "eslint .",
-    "prepublish": "cross-env NODE_ENV=production npm run build"
+    "prepublish": "cross-env NODE_ENV=production npm run build",
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags && npm publish"
   },
   "keywords": [
     "rollup",
