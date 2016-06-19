@@ -29,10 +29,11 @@ export default function sourceMapsPlugin({ include, exclude } = {}) {
         return null;
       }
 
+      // Check for source map comments
       const match = regex1.exec(code) || regex2.exec(code);
 
+      // No source map detected, return code
       if (match === null) {
-        // No source map, return code
         return code;
       }
 
