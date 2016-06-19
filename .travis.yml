@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - 4
-  - stable
+  - node
 before_install:
   - if [[ $(npm --version) == 1* ]]; then npm install -g npm@latest-2; fi
 after_success:
