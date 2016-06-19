@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { createFilter } from 'rollup-pluginutils';
-import * as path from 'path';
+import { resolve, dirname } from 'path';
 import { readFile } from 'fs';
 import { promisify } from './utils';
 
@@ -38,7 +38,6 @@ export default function sourceMapsPlugin({ include, exclude } = {}) {
 
       const [sourceMapComment, sourceMapURL] = match;
       const dataUrlMatch = regexDataUrl.exec(sourceMapURL);
-      const context = path.dirname(id);
 
       // Remove the source map comment, and make sure we don't return an empty string
       code = code.replace(sourceMapComment, '') || '\n';
@@ -47,9 +46,9 @@ export default function sourceMapsPlugin({ include, exclude } = {}) {
       if (dataUrlMatch) {
         rawMap = new Buffer(dataUrlMatch[1], 'base64').toString();
       } else {
-        const fileName = path.resolve(context, sourceMapURL);
+        const sourceMapPath = resolve(dirname(id), sourceMapURL);
         try {
-          rawMap = await readFileAsync(fileName, 'utf8');
+          rawMap = await readFileAsync(sourceMapPath, 'utf8');
         } catch (err) {
           console.error(`rollup-plugin-sourcemaps: Could not open source map: ${err}`);
           return code;
