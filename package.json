@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-sourcemaps",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Rollup plugin for grabbing source maps from sourceMappingsURLs",
   "author": "Max Davidson <davidsonmax@gmail.com>",
   "license": "MIT",
