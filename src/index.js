@@ -10,7 +10,7 @@ const readFileAsync = promisify(readFile);
 const baseRegex = '\\s*[@#]\\s*sourceMappingURL\\s*=\\s*([^\\s]*)';
 const regex1 = new RegExp(`/\\*${baseRegex}\\s*\\*/`); // Matches /* ... */ comments
 const regex2 = new RegExp(`//${baseRegex}($|\n|\r\n?)`); // Matches // .... comments
-const regexDataUrl = /data:[^;\n]+;base64,(.*)/; // Matches DataUrls
+const regexDataUrl = /data:(.*?)(?:;charset=(.*?))?(?:;(base64))?,(.+)/i; // Matches data urls
 
 export default function sourceMapsPlugin({ include, exclude } = {}) {
   const filter = createFilter(include, exclude);
@@ -37,14 +37,24 @@ export default function sourceMapsPlugin({ include, exclude } = {}) {
       }
 
       const [sourceMapComment, sourceMapURL] = match;
-      const dataUrlMatch = regexDataUrl.exec(sourceMapURL);
 
       // Remove the source map comment, and make sure we don't return an empty string
       code = code.replace(sourceMapComment, '') || '\n';
 
+      // Check if the source map is inlined, i.e. it uses a data url
+      const dataUrlMatch = regexDataUrl.exec(sourceMapURL);
+
       let rawMap;
-      if (dataUrlMatch) {
-        rawMap = new Buffer(dataUrlMatch[1], 'base64').toString();
+      if (dataUrlMatch !== null) {
+        /* eslint-disable no-unused-vars */
+        const [dataUrl, mimeType, charset = 'utf8', encoding = 'base64', data] = dataUrlMatch;
+        /* eslint-enable */
+        try {
+          rawMap = new Buffer(data, encoding).toString(charset);
+        } catch (err) {
+          console.error(`rollup-plugin-sourcemaps: Failed parsing data url: ${err}`);
+          return code;
+        }
       } else {
         const sourceMapPath = resolve(dirname(id), sourceMapURL);
         try {
