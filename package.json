@@ -65,5 +65,8 @@
     "rollup": "^0.32.0",
     "rollup-plugin-babel": "^2.5.1",
     "rollup-watch": "^2.4.0"
+  },
+  "peerDependencies": {
+    "rollup": ">= 0.32.0"
   }
 }
