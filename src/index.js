@@ -7,7 +7,7 @@ import { promisify } from './utils';
 const readFileAsync = promisify(readFile);
 const resolveSourceMapAsync = promisify(resolveSourceMap);
 
-export default function sourceMapsPlugin({ include, exclude } = {}) {
+export default function sourcemaps({ include, exclude } = {}) {
   const filter = createFilter(include, exclude);
 
   return {
