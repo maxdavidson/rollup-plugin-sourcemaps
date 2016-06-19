@@ -67,6 +67,6 @@
     "rollup-watch": "^2.4.0"
   },
   "peerDependencies": {
-    "rollup": ">= 0.32.0"
+    "rollup": ">= 0.31.2"
   }
 }

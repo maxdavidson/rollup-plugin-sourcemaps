@@ -10,6 +10,6 @@
 
 Useful for working with precompiled modules with existing source maps, without resorting to [sorcery](https://github.com/Rich-Harris/sorcery).
 
-Requires Rollup v0.32.0 or later.
+Requires Rollup v0.31.2 or later.
 
 Inspired by [webpack/source-map-loader](https://github.com/webpack/source-map-loader).
