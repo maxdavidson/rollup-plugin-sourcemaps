@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import test from 'ava';
 import { resolve } from 'path';
 import { rollup } from 'rollup';
