@@ -13,3 +13,19 @@ Useful for working with precompiled modules with existing source maps, without r
 Requires Rollup v0.31.2 or later.
 
 Inspired by [webpack/source-map-loader](https://github.com/webpack/source-map-loader).
+
+
+## Usage
+
+```javascript
+import sourcemaps from 'rollup-plugin-sourcemaps';
+
+export default {
+  entry: 'src/index.js',
+  dest: 'dist/my-awesome-package.js',
+  sourceMap: true,
+  plugins: [
+    sourcemaps()
+  ]
+};
+```
