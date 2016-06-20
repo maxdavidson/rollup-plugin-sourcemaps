@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 import { createFilter } from 'rollup-pluginutils';
-import { resolveSourceMap } from 'source-map-resolve';
+import { resolve } from 'source-map-resolve';
 import { readFile } from 'fs';
 import { promisify } from './utils';
 
 const readFileAsync = promisify(readFile);
-const resolveSourceMapAsync = promisify(resolveSourceMap);
+const resolveSourceMapAsync = promisify(resolve);
 
 export default function sourcemaps({ include, exclude } = {}) {
   const filter = createFilter(include, exclude);
@@ -37,7 +37,9 @@ export default function sourcemaps({ include, exclude } = {}) {
         return code;
       }
 
-      const { map } = sourceMap;
+      const { map, sourcesContent } = sourceMap;
+
+      map.sourcesContent = sourcesContent;
 
       return { code, map };
     },
