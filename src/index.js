@@ -11,6 +11,8 @@ export default function sourcemaps({ include, exclude } = {}) {
   const filter = createFilter(include, exclude);
 
   return {
+    name: 'sourcemaps',
+
     async load(id) {
       if (!filter(id)) {
         return null;
