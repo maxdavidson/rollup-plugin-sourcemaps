@@ -11,8 +11,8 @@
     "url": "https://github.com/maxdavidson/rollup-plugin-sourcemaps"
   },
   "engines": {
-    "node": ">= 4.0.0",
-    "npm": ">= 2.14.2"
+    "node": ">=4.0.0",
+    "npm": ">=2.14.2"
   },
   "scripts": {
     "clean": "rimraf dist coverage .nyc_output",
@@ -67,6 +67,6 @@
     "rollup-watch": "^2.4.0"
   },
   "peerDependencies": {
-    "rollup": ">= 0.31.2"
+    "rollup": ">=0.31.2"
   }
 }
