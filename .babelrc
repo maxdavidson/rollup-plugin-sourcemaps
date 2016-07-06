@@ -8,9 +8,7 @@
   ],
   "env": {
     "test": {
-      "plugins": [
-        ["__coverage__", { "ignore": "test/" }]
-      ]
+      "plugins": ["istanbul"]
     }
   }
 }
