@@ -15,15 +15,15 @@
     "npm": ">=2.14.2"
   },
   "scripts": {
-    "clean": "rimraf dist coverage .nyc_output",
-    "prebuild": "npm run clean",
     "build": "rollup -c",
-    "pretest": "cross-env NODE_ENV=test npm run build",
+    "clean": "rimraf dist coverage .nyc_output",
+    "lint": "eslint .",
     "test": "nyc ava",
-    "posttest": "npm run lint",
     "test:watch": "npm run clean && nyc ava --watch & cross-env NODE_ENV=test rollup -w -c",
     "test:coverage": "nyc report -r text-lcov | coveralls",
-    "lint": "eslint .",
+    "prebuild": "npm run clean",
+    "pretest": "cross-env NODE_ENV=test npm run build",
+    "posttest": "npm run lint",
     "prepublish": "cross-env NODE_ENV=production npm run build",
     "preversion": "npm test",
     "postversion": "git push && git push --tags && npm publish"
