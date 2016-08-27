@@ -1,6 +1,7 @@
 language: node_js
 node_js:
   - 4
-  - node
+  - 5
+  - 6
 after_success:
-  - if [[ $(node --version) == v4* ]]; then npm run test:coverage; fi
+  npm run test:coverage
