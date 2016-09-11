@@ -5,7 +5,6 @@
     }]
   ],
   "plugins": [
-    "transform-runtime",
     "external-helpers"
   ],
   "env": {

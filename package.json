@@ -44,7 +44,6 @@
     "instrument": false
   },
   "dependencies": {
-    "babel-runtime": "^6.9.2",
     "rollup-pluginutils": "^1.5.0",
     "source-map-resolve": "^0.5.0"
   },
@@ -54,7 +53,6 @@
     "babel-eslint": "^6.0.4",
     "babel-plugin-external-helpers": "^6.8.0",
     "babel-plugin-istanbul": "^2.0.0",
-    "babel-plugin-transform-runtime": "^6.9.0",
     "babel-preset-latest": "^6.14.0",
     "coveralls": "^2.11.9",
     "cross-env": "^2.0.0",

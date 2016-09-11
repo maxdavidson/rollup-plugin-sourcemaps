@@ -1,11 +1,7 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, no-shadow */
 import { createFilter } from 'rollup-pluginutils';
-import { resolve } from 'source-map-resolve';
-import { readFile } from 'fs';
-import { promisify } from './utils';
-
-const readFileAsync = promisify(readFile);
-const resolveSourceMapAsync = promisify(resolve);
+import * as smr from 'source-map-resolve';
+import * as fs from 'fs';
 
 export default function sourcemaps({ include, exclude } = {}) {
   const filter = createFilter(include, exclude);
@@ -13,37 +9,31 @@ export default function sourcemaps({ include, exclude } = {}) {
   return {
     name: 'sourcemaps',
 
-    async load(id) {
+    load(id) {
       if (!filter(id)) {
         return null;
       }
 
-      let code;
-      try {
-        code = await readFileAsync(id, 'utf8');
-      } catch (err) {
-        // Failed, let Rollup deal with it
-        return null;
-      }
+      return new Promise(resolve => {
+        fs.readFile(id, 'utf8', (err, code) => {
+          if (err) {
+            resolve(null);
+            return;
+          }
 
-      let sourceMap;
-      try {
-        sourceMap = await resolveSourceMapAsync(code, id, readFile);
-      } catch (err) {
-        console.error(`rollup-plugin-sourcemaps: Failed resolving source map from ${id}: ${err}`);
-        return code;
-      }
+          smr.resolve(code, id, fs.readFile, (err, sourceMap) => {
+            if (err || sourceMap === null) {
+              resolve(code);
+              return;
+            }
 
-      // No source map detected, return code
-      if (sourceMap === null) {
-        return code;
-      }
+            const { map, sourcesContent } = sourceMap;
+            map.sourcesContent = sourcesContent;
 
-      const { map, sourcesContent } = sourceMap;
-
-      map.sourcesContent = sourcesContent;
-
-      return { code, map };
+            resolve({ code, map });
+          });
+        });
+      });
     },
   };
 }
