@@ -1,7 +1,6 @@
-/* eslint-disable no-console, no-shadow */
 import { createFilter } from 'rollup-pluginutils';
-import * as smr from 'source-map-resolve';
-import * as fs from 'fs';
+import { resolve as resolveSourceMap } from 'source-map-resolve';
+import { readFile } from 'fs';
 
 export default function sourcemaps({ include, exclude } = {}) {
   const filter = createFilter(include, exclude);
@@ -15,23 +14,22 @@ export default function sourcemaps({ include, exclude } = {}) {
       }
 
       return new Promise(resolve => {
-        fs.readFile(id, 'utf8', (err, code) => {
+        readFile(id, 'utf8', (err, code) => {
           if (err) {
+            // Failed reading file, let the next plugin deal with it
             resolve(null);
-            return;
+          } else {
+            resolveSourceMap(code, id, readFile, (err, sourceMap) => {
+              if (err || sourceMap === null) {
+                // Either something went wrong, or there was no source map
+                resolve(code);
+              } else {
+                const { map, sourcesContent } = sourceMap;
+                map.sourcesContent = sourcesContent;
+                resolve({ code, map });
+              }
+            });
           }
-
-          smr.resolve(code, id, fs.readFile, (err, sourceMap) => {
-            if (err || sourceMap === null) {
-              resolve(code);
-              return;
-            }
-
-            const { map, sourcesContent } = sourceMap;
-            map.sourcesContent = sourcesContent;
-
-            resolve({ code, map });
-          });
         });
       });
     },
