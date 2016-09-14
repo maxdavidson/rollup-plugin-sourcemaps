@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1
+
+* Add module field to package.json
+
 ## 0.4.0
 
 * Remove async functions, since they require `babel-runtime` on Node 4
