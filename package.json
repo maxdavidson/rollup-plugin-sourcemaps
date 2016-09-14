@@ -5,6 +5,7 @@
   "author": "Max Davidson <davidsonmax@gmail.com>",
   "license": "MIT",
   "main": "dist/rollup-plugin-sourcemaps.js",
+  "module": "dist/rollup-plugin-sourcemaps.es.js",
   "jsnext:main": "dist/rollup-plugin-sourcemaps.es.js",
   "repository": {
     "type": "git",
