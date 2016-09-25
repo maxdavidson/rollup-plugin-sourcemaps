@@ -20,7 +20,7 @@
     "clean": "rimraf dist coverage .nyc_output",
     "lint": "eslint .",
     "test": "nyc ava",
-    "test:coverage": "nyc report -r text-lcov | coveralls",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "prebuild": "npm run clean",
     "pretest": "cross-env NODE_ENV=test npm run build",
     "posttest": "npm run lint",
