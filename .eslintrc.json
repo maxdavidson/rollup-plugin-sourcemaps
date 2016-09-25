@@ -1,7 +1,10 @@
 {
   "root": true,
-  "parser": "babel-eslint",
   "extends": "airbnb-base",
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "sourceType": "module"
+  },
   "rules": {
     "arrow-parens": 0,
     "no-console": 0,
