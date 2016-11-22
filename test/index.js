@@ -1,10 +1,10 @@
 import test from 'ava';
-import { resolve } from 'path';
+import * as path from 'path';
 import { rollup } from 'rollup';
 import sourcemaps from '../';
 
 test('meta', async (t) => {
-  const entry = '../dist/rollup-plugin-sourcemaps.es.js';
+  const entry = path.join(__dirname, '../dist/rollup-plugin-sourcemaps.es.js');
 
   const bundle = await rollup({
     entry,
@@ -21,8 +21,8 @@ test('meta', async (t) => {
   t.not(result.map, undefined);
   t.not(result.map.sources, undefined);
 
-  const expectedPath = resolve(process.cwd(), '../src/index.js');
-  const sourceMapPaths = result.map.sources.map(source => resolve(entry, source));
+  const expectedPath = path.resolve(__dirname, '../src/index.js');
+  const sourceMapPaths = result.map.sources.map(source => path.resolve(entry, source));
 
   t.not(sourceMapPaths.indexOf(expectedPath), -1);
 });
