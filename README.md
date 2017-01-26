@@ -1,5 +1,7 @@
 # rollup-plugin-sourcemaps
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/maxdavidson/rollup-plugin-sourcemaps.svg)](https://greenkeeper.io/)
+
 [![npm](https://img.shields.io/npm/v/rollup-plugin-sourcemaps.svg)](https://www.npmjs.com/package/rollup-plugin-sourcemaps)
 [![Build Status](https://img.shields.io/travis/maxdavidson/rollup-plugin-sourcemaps/master.svg)](https://travis-ci.org/maxdavidson/rollup-plugin-sourcemaps)
 [![Coverage Status](https://img.shields.io/coveralls/maxdavidson/rollup-plugin-sourcemaps/master.svg)](https://coveralls.io/github/maxdavidson/rollup-plugin-sourcemaps?branch=master)
