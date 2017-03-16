@@ -5,6 +5,7 @@
 [![Coverage Status](https://img.shields.io/coveralls/maxdavidson/rollup-plugin-sourcemaps/master.svg)](https://coveralls.io/github/maxdavidson/rollup-plugin-sourcemaps?branch=master)
 [![Dependency Status](https://img.shields.io/david/maxdavidson/rollup-plugin-sourcemaps.svg)](https://david-dm.org/maxdavidson/rollup-plugin-sourcemaps)
 [![devDependency Status](https://img.shields.io/david/dev/maxdavidson/rollup-plugin-sourcemaps.svg)](https://david-dm.org/maxdavidson/rollup-plugin-sourcemaps?type=dev)
+[![Greenkeeper badge](https://badges.greenkeeper.io/maxdavidson/rollup-plugin-sourcemaps.svg)](https://greenkeeper.io/)
 
 [Rollup](https://rollupjs.org) plugin for grabbing source maps from sourceMappingURLs.
 
