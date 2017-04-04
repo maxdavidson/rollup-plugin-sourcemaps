@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.2
+
+* Fix: Paths to sourcemaps containing spaces were not being resolved
+
 ## 0.4.1
 
 * Add module field to package.json
