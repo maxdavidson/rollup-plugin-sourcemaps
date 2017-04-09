@@ -25,8 +25,7 @@
     "pretest": "cross-env NODE_ENV=test npm run build",
     "posttest": "npm run lint",
     "prepublish": "cross-env NODE_ENV=production npm run build",
-    "preversion": "npm test",
-    "postversion": "git push && git push --tags && npm publish"
+    "preversion": "npm test"
   },
   "keywords": [
     "rollup",
