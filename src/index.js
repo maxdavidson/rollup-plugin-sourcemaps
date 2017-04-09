@@ -1,8 +1,8 @@
 import { createFilter } from 'rollup-pluginutils';
 import { resolve as resolveSourceMap } from 'source-map-resolve';
-import { readFile } from 'fs';
+import * as fs from 'fs';
 
-export default function sourcemaps({ include, exclude } = {}) {
+export default function sourcemaps({ include, exclude, readFile = fs.readFile } = {}) {
   const filter = createFilter(include, exclude);
 
   return {
