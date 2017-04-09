@@ -1,8 +1,13 @@
 # Changelog
 
+## 0.4.2
+
+* Add the ability to override the `readFile` function
+* Switch to `babel-preset-env`
+
 ## 0.4.1
 
-* Add module field to package.json
+* Add `module` field to package.json
 
 ## 0.4.0
 
