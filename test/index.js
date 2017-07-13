@@ -13,7 +13,7 @@ test('meta', async (t) => {
     ],
   });
 
-  const result = bundle.generate({
+  const result = await bundle.generate({
     format: 'es',
     sourceMap: true,
   });
