@@ -3,19 +3,17 @@ import * as path from 'path';
 import { rollup } from 'rollup';
 import sourcemaps from '../';
 
-test('meta', async (t) => {
+test('meta', async t => {
   const entry = path.join(__dirname, '../dist/rollup-plugin-sourcemaps.es.js');
 
   const bundle = await rollup({
     entry,
-    plugins: [
-      sourcemaps(),
-    ],
+    plugins: [sourcemaps()],
   });
 
   const result = await bundle.generate({
     format: 'es',
-    sourceMap: true,
+    sourcemap: true,
   });
 
   t.not(result.map, undefined);
