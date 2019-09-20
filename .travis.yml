@@ -1,10 +1,12 @@
 language: node_js
 node_js:
-  - lts/argon
-  - lts/boron
+  - lts/carbon
+  - lts/dubnium
   - stable
-cache:
-  directories:
-    - node_modules
+cache: npm
+script: 
+  - npm run typecheck
+  - npm run lint
+  - npm run test -- --runInBand --coverage
 after_success:
-  npm run coveralls
+  cat coverage/lcov.info | npx coveralls

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0
+
+* Drop support for Node < 8 and make use of ES2017 features
+* Switch from Babel to TypeScript
+* Remove `jsnext:main` field from package.json
+
 ## 0.4.2
 
 * Add the ability to override the `readFile` function

@@ -1,20 +1,30 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import babel from 'rollup-plugin-babel';
+import sourcemaps from 'rollup-plugin-sourcemaps';
+import dts from 'rollup-plugin-dts';
 
-export default {
-  input: 'src/index.js',
-  external: ['fs', 'rollup-pluginutils', 'source-map-resolve'],
-  plugins: [babel()],
-  output: [
-    {
-      file: 'dist/rollup-plugin-sourcemaps.js',
-      format: 'cjs',
-      sourcemap: true,
+export default [
+  {
+    input: '.code/index.js',
+    external: ['fs', 'util', 'rollup-pluginutils', 'source-map-resolve'],
+    plugins: [sourcemaps()],
+    output: [
+      {
+        file: 'dist/rollup-plugin-sourcemaps.js',
+        format: 'cjs',
+        sourcemap: true,
+      },
+      {
+        file: 'dist/rollup-plugin-sourcemaps.es.js',
+        format: 'esm',
+        sourcemap: true,
+      },
+    ],
+  },
+  {
+    input: '.code/index.d.ts',
+    external: ['fs'],
+    plugins: [dts()],
+    output: {
+      file: 'dist/rollup-plugin-sourcemaps.d.ts',
     },
-    {
-      file: 'dist/rollup-plugin-sourcemaps.es.js',
-      format: 'es',
-      sourcemap: true,
-    },
-  ],
-};
+  },
+];
