@@ -1,13 +1,39 @@
 {
   "root": true,
-  "extends": "airbnb-base",
+  "extends": ["eslint:recommended", "plugin:prettier/recommended", "prettier"],
   "parserOptions": {
     "ecmaVersion": 2017,
     "sourceType": "module"
   },
-  "rules": {
-    "arrow-parens": 0,
-    "no-console": 0,
-    "no-shadow": 0
-  }
+  "overrides": [
+    {
+      "files": ["**/*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "project": "./tsconfig.json"
+      },
+      "plugins": ["@typescript-eslint"],
+      "extends": [
+        "prettier/@typescript-eslint",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+      ],
+      "rules": {
+        "curly": ["error", "all"],
+        "@typescript-eslint/ban-ts-ignore": "warn",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/require-await": "off"
+      }
+    },
+    {
+      "files": ["**/*.{test,spec}.{js,jsx,ts,tsx}", "**/__tests__/*"],
+      "env": {
+        "jest": true
+      },
+      "rules": {
+        "import/no-extraneous-dependencies": "off"
+      }
+    }
+  ]
 }

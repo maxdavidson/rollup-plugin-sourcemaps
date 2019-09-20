@@ -7,14 +7,18 @@
 [![devDependency Status](https://img.shields.io/david/dev/maxdavidson/rollup-plugin-sourcemaps.svg)](https://david-dm.org/maxdavidson/rollup-plugin-sourcemaps?type=dev)
 [![Greenkeeper badge](https://badges.greenkeeper.io/maxdavidson/rollup-plugin-sourcemaps.svg)](https://greenkeeper.io/)
 
-[Rollup](https://rollupjs.org) plugin for grabbing source maps from sourceMappingURLs.
-
-Useful for working with precompiled modules with existing source maps, without resorting to [sorcery](https://github.com/Rich-Harris/sorcery).
-
-Requires Rollup v0.31.2 or later.
-
+[Rollup](https://rollupjs.org) plugin for loading files with existing source maps. 
 Inspired by [webpack/source-map-loader](https://github.com/webpack/source-map-loader).
 
+Works with rollup 0.31.2 or later.
+
+If you use [rollup-plugin-babel](https://github.com/rollup/rollup-plugin-babel),
+you might be able to use the [`inputSourceMap`](https://babeljs.io/docs/en/options#inputsourcemap) option instead of this plugin.
+
+## Why?
+
+- You transpile your files with source maps before bundling with rollup
+- You consume external modules with bundled source maps
 
 ## Usage
 
@@ -22,11 +26,11 @@ Inspired by [webpack/source-map-loader](https://github.com/webpack/source-map-lo
 import sourcemaps from 'rollup-plugin-sourcemaps';
 
 export default {
-  entry: 'src/index.js',
-  dest: 'dist/my-awesome-package.js',
-  sourceMap: true,
-  plugins: [
-    sourcemaps()
-  ]
+  input: 'src/index.js',
+  plugins: [sourcemaps()],
+  output: {
+    sourcemap: true,
+    file: 'dist/my-awesome-package.js',
+  },
 };
 ```
