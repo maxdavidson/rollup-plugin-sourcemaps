@@ -30,26 +30,22 @@ declare module 'source-map-resolve' {
   export function resolveSourceMap(
     code: string,
     codeUrl: string,
-    read: (
-      path: string,
-      callback: (error: Error | null, data: Buffer | string) => void,
-    ) => void,
+    read: (path: string, callback: (error: Error | null, data: Buffer | string) => void) => void,
     callback: (
       error: Error | null,
       /** If code contains no sourceMappingURL, the result is null. */
-      result: ResolvedSourceMap | null
-    ) => void
+      result: ResolvedSourceMap | null,
+    ) => void,
   ): void;
-
 
   export interface ResolvedSources {
     /** The same as map.sources, except all the sources are fully resolved. */
     sourcesResolved: string[];
-    /** 
-     * An array with the contents of all sources in map.sources, in the same order as map.sources. 
-     * If getting the contents of a source fails, an error object is put into the array instead. 
+    /**
+     * An array with the contents of all sources in map.sources, in the same order as map.sources.
+     * If getting the contents of a source fails, an error object is put into the array instead.
      * */
-    sourcesContent: (string | Error)[];
+    sourcesContent: (string | Error)[];
   }
 
   /**
@@ -62,14 +58,7 @@ declare module 'source-map-resolve' {
   export function resolveSources(
     map: ExistingRawSourceMap,
     mapUrl: string,
-    read: (
-      path: string,
-      callback: (error: Error | null, data: Buffer | string) => void,
-    ) => void,
-    callback: (
-      error: Error | null,
-      result: ResolvedSources
-    ) => void
+    read: (path: string, callback: (error: Error | null, data: Buffer | string) => void) => void,
+    callback: (error: Error | null, result: ResolvedSources) => void,
   ): void;
-
 }
