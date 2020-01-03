@@ -1,10 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { callbackify } from 'util';
+import util from 'util';
 import ts from 'typescript';
 import { rollup } from 'rollup';
 
-import sourcemaps from '..';
+import sourcemaps, { SourcemapsPluginOptions } from '..';
 
 const inputPath = path.join(__dirname, '../index.ts');
 const inputText = fs.readFileSync(inputPath, 'utf8');
@@ -24,33 +24,37 @@ const sourceMapPath = path.format({
 async function rollupBundle({
   outputText,
   sourceMapText,
-}: {
-  outputText: string;
-  sourceMapText?: string;
+  pluginOptions,
+}: ts.TranspileOutput & {
+  pluginOptions?: SourcemapsPluginOptions;
 }) {
-  const bundle = await rollup({
+  const load = async (path: string) => {
+    switch (path) {
+      case inputPath:
+        return inputText;
+      case outputPath:
+        return outputText;
+      case sourceMapPath:
+        return sourceMapText!;
+      default:
+        throw new Error(`Unexpected path: ${path}`);
+    }
+  };
+
+  const { generate } = await rollup({
     input: outputPath,
     external: () => true,
     plugins: [
       { name: 'skip-checks', resolveId: path => path },
       sourcemaps({
-        readFile: callbackify(async (path: string) => {
-          switch (path) {
-            case inputPath:
-              return inputText;
-            case outputPath:
-              return outputText;
-            case sourceMapPath:
-              return sourceMapText!;
-            default:
-              throw new Error(`Unexpected path: ${path}`);
-          }
-        }),
+        readFile: util.callbackify(load),
+        ...pluginOptions,
       }),
+      { name: 'fake-fs', load },
     ],
   });
 
-  const { output } = await bundle.generate({
+  const { output } = await generate({
     format: 'esm',
     sourcemap: true,
     sourcemapPathTransform(relativePath) {
@@ -61,66 +65,165 @@ async function rollupBundle({
   return output[0];
 }
 
-test('ignores files with no source maps', async () => {
+it('ignores files with no source maps', async () => {
   const { outputText, sourceMapText } = ts.transpileModule(inputText, {
     fileName: inputPath,
     compilerOptions: {
       target: ts.ScriptTarget.ES2017,
+      sourceMap: false,
+      inlineSourceMap: false,
     },
   });
 
   expect(sourceMapText).toBeUndefined();
 
-  const { map } = await rollupBundle({
-    outputText,
-    sourceMapText,
-  });
+  const { map } = await rollupBundle({ outputText, sourceMapText });
 
   expect(map).toBeDefined();
-
-  expect(map!.sources).toBeDefined();
   expect(map!.sources).toStrictEqual([outputPath]);
-
-  expect(map!.sourcesContent).toBeDefined();
   expect(map!.sourcesContent).toStrictEqual([outputText]);
 });
 
-test.each`
-  sourceMap | inlineSourceMap | inlineSources
-  ${true}   | ${false}        | ${false}
-  ${false}  | ${true}         | ${false}
-  ${true}   | ${false}        | ${true}
-  ${false}  | ${true}         | ${true}
-`(
-  'sourceMap: $sourceMap, inlineSourceMap: $inlineSourceMap, inlineSources: $inlineSources',
-  async ({ sourceMap, inlineSourceMap, inlineSources }) => {
+describe('detects files with source maps', () => {
+  test.each`
+    sourceMap | inlineSourceMap | inlineSources
+    ${true}   | ${false}        | ${false}
+    ${false}  | ${true}         | ${false}
+    ${true}   | ${false}        | ${true}
+    ${false}  | ${true}         | ${true}
+  `(
+    'sourceMap: $sourceMap, inlineSourceMap: $inlineSourceMap, inlineSources: $inlineSources',
+    async ({ sourceMap, inlineSourceMap, inlineSources }) => {
+      const { outputText, sourceMapText } = ts.transpileModule(inputText, {
+        fileName: inputPath,
+        compilerOptions: {
+          target: ts.ScriptTarget.ES2017,
+          sourceMap,
+          inlineSourceMap,
+          inlineSources,
+        },
+      });
+
+      if (sourceMap) {
+        expect(sourceMapText).toBeDefined();
+      } else {
+        expect(sourceMapText).toBeUndefined();
+      }
+
+      const { map } = await rollupBundle({ outputText, sourceMapText });
+
+      expect(map).toBeDefined();
+      expect(map!.sources).toStrictEqual([inputPath]);
+      expect(map!.sourcesContent).toStrictEqual([inputText]);
+    },
+  );
+});
+
+describe('ignores filtered files', () => {
+  test('included', async () => {
     const { outputText, sourceMapText } = ts.transpileModule(inputText, {
       fileName: inputPath,
       compilerOptions: {
         target: ts.ScriptTarget.ES2017,
-        sourceMap,
-        inlineSourceMap,
-        inlineSources,
+        sourceMap: true,
       },
     });
 
-    if (sourceMap) {
-      expect(sourceMapText).toBeDefined();
-    } else {
-      expect(sourceMapText).toBeUndefined();
-    }
+    expect(sourceMapText).toBeDefined();
 
     const { map } = await rollupBundle({
       outputText,
       sourceMapText,
+      pluginOptions: {
+        include: ['dummy-file'],
+      },
     });
 
     expect(map).toBeDefined();
+    expect(map!.sources).toStrictEqual([outputPath]);
+    expect(map!.sourcesContent).toStrictEqual([outputText]);
+  });
 
-    expect(map!.sources).toBeDefined();
-    expect(map!.sources).toStrictEqual([inputPath]);
+  test('excluded', async () => {
+    const { outputText, sourceMapText } = ts.transpileModule(inputText, {
+      fileName: inputPath,
+      compilerOptions: {
+        target: ts.ScriptTarget.ES2017,
+        sourceMap: true,
+      },
+    });
 
-    expect(map!.sourcesContent).toBeDefined();
-    expect(map!.sourcesContent).toStrictEqual([inputText]);
-  },
-);
+    expect(sourceMapText).toBeDefined();
+
+    const { map } = await rollupBundle({
+      outputText,
+      sourceMapText,
+      pluginOptions: {
+        exclude: [path.relative(process.cwd(), outputPath)],
+      },
+    });
+
+    expect(map).toBeDefined();
+    expect(map!.sources).toStrictEqual([outputPath]);
+    expect(map!.sourcesContent).toStrictEqual([outputText]);
+  });
+});
+
+it('delegates failing file reads to the next plugin', async () => {
+  const { outputText, sourceMapText } = ts.transpileModule(inputText, {
+    fileName: inputPath,
+    compilerOptions: {
+      target: ts.ScriptTarget.ES2017,
+      sourceMap: true,
+    },
+  });
+
+  expect(sourceMapText).toBeDefined();
+
+  const { map } = await rollupBundle({
+    outputText,
+    sourceMapText,
+    pluginOptions: {
+      readFile(_path, cb) {
+        cb(new Error('Failed!'), '');
+      },
+    },
+  });
+
+  expect(map).toBeDefined();
+  expect(map!.sources).toStrictEqual([outputPath]);
+  expect(map!.sourcesContent).toStrictEqual([outputText]);
+});
+
+it('handles failing source maps reads', async () => {
+  const { outputText, sourceMapText } = ts.transpileModule(inputText, {
+    fileName: inputPath,
+    compilerOptions: {
+      target: ts.ScriptTarget.ES2017,
+      sourceMap: true,
+    },
+  });
+
+  expect(sourceMapText).toBeDefined();
+
+  const { map } = await rollupBundle({
+    outputText,
+    sourceMapText,
+    pluginOptions: {
+      readFile: util.callbackify(async (path: string) => {
+        switch (path) {
+          case inputPath:
+            return inputText;
+          case outputPath:
+            return outputText;
+          default:
+            throw new Error(`Unexpected path: ${path}`);
+        }
+      }),
+    },
+  });
+
+  expect(map).toBeDefined();
+  expect(map!.sources).toStrictEqual([outputPath]);
+  expect(map!.sourcesContent).toStrictEqual([outputText]);
+});
