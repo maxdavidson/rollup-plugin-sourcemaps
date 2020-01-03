@@ -4,9 +4,9 @@
   "description": "Rollup plugin for grabbing source maps from sourceMappingURLs",
   "author": "Max Davidson <davidsonmax@gmail.com>",
   "license": "MIT",
-  "main": "dist/rollup-plugin-sourcemaps.js",
-  "module": "dist/rollup-plugin-sourcemaps.es.js",
-  "types": "dist/rollup-plugin-sourcemaps.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
   "sideEffects": false,
   "repository": {
     "type": "git",
@@ -16,7 +16,7 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "build": "rm -rf dist && tsc && rollup -c && rm -rf .code",
+    "build": "rimraf dist && tsc --emitDeclarationOnly && rollup --config",
     "test": "jest",
     "lint": "eslint . --ext .js,.ts",
     "typecheck": "tsc --noEmit",
@@ -34,24 +34,24 @@
     "dist"
   ],
   "dependencies": {
-    "rollup-pluginutils": "^2.8.2",
-    "source-map-resolve": "^0.5.2"
+    "@rollup/pluginutils": "^3.0.1",
+    "source-map-resolve": "^0.5.3"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.18",
-    "@types/node": "^8.10.54",
-    "@typescript-eslint/eslint-plugin": "^2.3.0",
-    "@typescript-eslint/parser": "^2.3.0",
-    "eslint": "^6.4.0",
-    "eslint-config-prettier": "^6.3.0",
-    "eslint-plugin-prettier": "^3.1.0",
+    "@rollup/plugin-typescript": "^2.0.1",
+    "@types/jest": "^24.0.25",
+    "@types/node": "^8.10.59",
+    "@typescript-eslint/eslint-plugin": "^2.14.0",
+    "@typescript-eslint/parser": "^2.14.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-prettier": "^3.1.2",
     "jest": "^24.9.0",
-    "prettier": "^1.18.2",
-    "rollup": "^1.21.4",
-    "rollup-plugin-dts": "^1.1.7",
-    "rollup-plugin-sourcemaps": "0.4.2",
-    "ts-jest": "24.1.0",
-    "typescript": "^3.6.3"
+    "prettier": "^1.19.1",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.27.14",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.4"
   },
   "peerDependencies": {
     "@types/node": ">=8.0.0",

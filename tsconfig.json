@@ -3,12 +3,13 @@
     "target": "es2017",
     "module": "es2015",
     "moduleResolution": "node",
+    "declarationDir": "dist",
     "outDir": ".code",
     "rootDir": "src",
     "declaration": true,
     "sourceMap": true,
     "strict": true,
-    "esModuleInterop": true,
+    "esModuleInterop": true
   },
   "include": ["src"],
   "exclude": ["node_modules"]

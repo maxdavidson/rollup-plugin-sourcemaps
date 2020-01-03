@@ -5,6 +5,9 @@
     "ecmaVersion": 2017,
     "sourceType": "module"
   },
+  "rules": {
+    "curly": ["error", "all"]
+  },
   "overrides": [
     {
       "files": ["**/*.ts"],
@@ -20,7 +23,6 @@
         "plugin:@typescript-eslint/recommended-requiring-type-checking"
       ],
       "rules": {
-        "curly": ["error", "all"],
         "@typescript-eslint/ban-ts-ignore": "warn",
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/require-await": "off"
