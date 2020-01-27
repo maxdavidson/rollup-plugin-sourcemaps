@@ -38,7 +38,7 @@
     "source-map-resolve": "^0.5.3"
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "^2.0.1",
+    "@rollup/plugin-typescript": "^3.0.0",
     "@types/jest": "^24.0.25",
     "@types/node": "^8.10.59",
     "@typescript-eslint/eslint-plugin": "^2.14.0",
