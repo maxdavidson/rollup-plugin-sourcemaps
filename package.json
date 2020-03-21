@@ -35,7 +35,7 @@
   ],
   "dependencies": {
     "@rollup/pluginutils": "^3.0.1",
-    "source-map-resolve": "^0.5.3"
+    "source-map-resolve": "^0.6.0"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^4.1.1",
