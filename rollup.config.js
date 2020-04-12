@@ -8,14 +8,15 @@ const config = {
   plugins: [typescript()],
   output: [
     {
-      file: 'dist/index.js',
+      dir: 'dist',
       format: 'cjs',
       sourcemap: true,
     },
     {
-      file: 'dist/index.esm.js',
-      format: 'esm',
+      dir: 'dist',
+      format: 'es',
       sourcemap: true,
+      entryFileNames: '[name].es.js',
     },
   ],
 };
