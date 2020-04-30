@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0
+
+- Drop support for Node 8
+- Update dependencies
+- Publish ES module for Node 12+ using conditional exports
+
 ## 0.5.0
 
 - Drop support for Node < 8 and make use of ES2017 features
