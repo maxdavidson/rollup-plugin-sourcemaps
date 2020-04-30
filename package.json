@@ -4,9 +4,14 @@
   "description": "Rollup plugin for grabbing source maps from sourceMappingURLs",
   "author": "Max Davidson <davidsonmax@gmail.com>",
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    "import": "dist/index.js",
+    "require": "dist/index.cjs"
+  },
   "sideEffects": false,
   "repository": {
     "type": "git",
