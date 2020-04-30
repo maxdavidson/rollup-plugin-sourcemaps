@@ -13,7 +13,7 @@
     "url": "https://github.com/maxdavidson/rollup-plugin-sourcemaps"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=10.0.0"
   },
   "scripts": {
     "build": "rimraf dist && rollup --config",
@@ -40,7 +40,7 @@
   "devDependencies": {
     "@rollup/plugin-typescript": "^4.1.1",
     "@types/jest": "^25.1.0",
-    "@types/node": "^8.10.59",
+    "@types/node": "^10.17.21",
     "@typescript-eslint/eslint-plugin": "^2.14.0",
     "@typescript-eslint/parser": "^2.14.0",
     "eslint": "^6.8.0",
@@ -54,7 +54,7 @@
     "typescript": "^3.7.4"
   },
   "peerDependencies": {
-    "@types/node": ">=8.0.0",
+    "@types/node": ">=10.0.0",
     "rollup": ">=0.31.2"
   }
 }
