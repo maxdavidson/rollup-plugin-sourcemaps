@@ -1,24 +1,22 @@
 // @ts-check
 import typescript from '@rollup/plugin-typescript';
 
-/** @type {import('rollup').RollupOptions} */
-const config = {
+export default /** @type {import('rollup').RollupOptions} */ ({
   input: 'src/index.ts',
   external: () => true,
   plugins: [typescript()],
   output: [
     {
       dir: 'dist',
-      format: 'cjs',
+      format: 'es',
       sourcemap: true,
+      entryFileNames: '[name].js',
     },
     {
       dir: 'dist',
-      format: 'es',
+      format: 'cjs',
       sourcemap: true,
-      entryFileNames: '[name].es.js',
+      entryFileNames: '[name].cjs',
     },
   ],
-};
-
-export default config;
+});
