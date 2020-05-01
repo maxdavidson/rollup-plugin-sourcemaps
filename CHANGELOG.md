@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1
+
+- Fix issue with conditional exports that prevented it from working in Node 13+
+
 ## 0.6.0
 
 - Drop support for Node 8
