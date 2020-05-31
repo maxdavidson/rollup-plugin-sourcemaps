@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/require-await, @typescript-eslint/no-non-null-assertion */
 import fs from 'fs';
 import path from 'path';
 import util from 'util';
 import ts from 'typescript';
 import { rollup } from 'rollup';
+import { describe, it, test, expect } from '@jest/globals';
 
 import sourcemaps, { SourcemapsPluginOptions } from '..';
 

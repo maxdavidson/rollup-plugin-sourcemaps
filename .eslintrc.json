@@ -24,17 +24,7 @@
       },
       "rules": {
         "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/explicit-module-boundary-types": "off",
-        "@typescript-eslint/require-await": "off"
-      }
-    },
-    {
-      "files": ["**/*.{test,spec}.{js,jsx,ts,tsx}", "**/__tests__/*"],
-      "env": {
-        "jest": true
-      },
-      "rules": {
-        "import/no-extraneous-dependencies": "off"
+        "@typescript-eslint/explicit-module-boundary-types": "off"
       }
     }
   ]
