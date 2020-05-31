@@ -36,7 +36,7 @@ export default function sourcemaps({
       try {
         code = (await promisifiedReadFile(id)).toString();
       } catch {
-        // Failed reading file, let the next plugin deal with it
+        this.warn('Failed reading file');
         return null;
       }
 
@@ -44,14 +44,14 @@ export default function sourcemaps({
       try {
         const result = await promisifiedResolveSourceMap(code, id, readFile);
 
-        // The code contained no sourceMappingURL,
+        // The code contained no sourceMappingURL
         if (result === null) {
           return code;
         }
 
         map = result.map;
       } catch {
-        // Failed resolving source map, just return the source
+        this.warn('Failed resolving source map');
         return code;
       }
 
@@ -63,7 +63,7 @@ export default function sourcemaps({
             map.sourcesContent = sourcesContent as string[];
           }
         } catch {
-          // Ignore
+          this.warn('Failed resolving sources for source map');
         }
       }
 
