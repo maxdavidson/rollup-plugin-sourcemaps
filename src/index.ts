@@ -1,5 +1,5 @@
 import fs from 'fs';
-import util from 'util';
+import { promisify } from 'util';
 import { Plugin, ExistingRawSourceMap } from 'rollup';
 import pluginUtils, { CreateFilter } from '@rollup/pluginutils';
 import sourceMapResolve from 'source-map-resolve';
@@ -7,8 +7,8 @@ import sourceMapResolve from 'source-map-resolve';
 const { createFilter } = pluginUtils;
 const { resolveSourceMap, resolveSources } = sourceMapResolve;
 
-const promisifiedResolveSourceMap = util.promisify(resolveSourceMap);
-const promisifiedResolveSources = util.promisify(resolveSources);
+const promisifiedResolveSourceMap = promisify(resolveSourceMap);
+const promisifiedResolveSources = promisify(resolveSources);
 
 export interface SourcemapsPluginOptions {
   include?: Parameters<CreateFilter>[0];
@@ -22,7 +22,7 @@ export default function sourcemaps({
   readFile = fs.readFile,
 }: SourcemapsPluginOptions = {}): Plugin {
   const filter = createFilter(include, exclude);
-  const promisifiedReadFile = util.promisify(readFile);
+  const promisifiedReadFile = promisify(readFile);
 
   return {
     name: 'sourcemaps',
@@ -59,7 +59,7 @@ export default function sourcemaps({
       if (map.sourcesContent === undefined) {
         try {
           const { sourcesContent } = await promisifiedResolveSources(map, id, readFile);
-          if (sourcesContent.every(util.isString)) {
+          if (sourcesContent.every(item => typeof item === 'string')) {
             map.sourcesContent = sourcesContent as string[];
           }
         } catch {
