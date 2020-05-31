@@ -5,26 +5,26 @@
     "ecmaVersion": 2017,
     "sourceType": "module"
   },
+  "env": {
+    "node": true
+  },
   "rules": {
     "curly": ["error", "all"]
   },
   "overrides": [
     {
       "files": ["**/*.ts"],
-      "parser": "@typescript-eslint/parser",
+      "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "prettier/@typescript-eslint"
+      ],
       "parserOptions": {
         "project": "./tsconfig.json"
       },
-      "plugins": ["@typescript-eslint"],
-      "extends": [
-        "prettier/@typescript-eslint",
-        "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking"
-      ],
       "rules": {
-        "@typescript-eslint/ban-ts-ignore": "warn",
         "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/require-await": "off"
       }
     },

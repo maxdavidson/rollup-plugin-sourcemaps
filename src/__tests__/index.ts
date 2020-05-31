@@ -93,7 +93,15 @@ describe('detects files with source maps', () => {
     ${false}  | ${true}         | ${true}
   `(
     'sourceMap: $sourceMap, inlineSourceMap: $inlineSourceMap, inlineSources: $inlineSources',
-    async ({ sourceMap, inlineSourceMap, inlineSources }) => {
+    async ({
+      sourceMap,
+      inlineSourceMap,
+      inlineSources,
+    }: {
+      sourceMap: boolean;
+      inlineSourceMap: boolean;
+      inlineSources: boolean;
+    }) => {
       const { outputText, sourceMapText } = ts.transpileModule(inputText, {
         fileName: inputPath,
         compilerOptions: {
