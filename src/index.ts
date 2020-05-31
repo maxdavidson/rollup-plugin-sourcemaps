@@ -1,8 +1,11 @@
 import fs from 'fs';
 import util from 'util';
 import { Plugin, ExistingRawSourceMap } from 'rollup';
-import { createFilter, CreateFilter } from '@rollup/pluginutils';
-import { resolveSourceMap, resolveSources } from 'source-map-resolve';
+import pluginUtils, { CreateFilter } from '@rollup/pluginutils';
+import sourceMapResolve from 'source-map-resolve';
+
+const { createFilter } = pluginUtils;
+const { resolveSourceMap, resolveSources } = sourceMapResolve;
 
 const promisifiedResolveSourceMap = util.promisify(resolveSourceMap);
 const promisifiedResolveSources = util.promisify(resolveSources);
