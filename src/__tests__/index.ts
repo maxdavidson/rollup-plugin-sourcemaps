@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/require-await, @typescript-eslint/no-non-null-assertion */
 import fs from 'fs';
 import path from 'path';
-import util from 'util';
 import ts from 'typescript';
 import { rollup } from 'rollup';
 import { describe, it, test, expect } from '@jest/globals';
@@ -30,18 +29,18 @@ async function rollupBundle({
 }: ts.TranspileOutput & {
   pluginOptions?: SourcemapsPluginOptions;
 }) {
-  const load = async (path: string) => {
-    switch (path) {
-      case inputPath:
+  function load(path: string) {
+    switch (path.toLowerCase()) {
+      case inputPath.toLowerCase():
         return inputText;
-      case outputPath:
+      case outputPath.toLowerCase():
         return outputText;
-      case sourceMapPath:
+      case sourceMapPath.toLowerCase():
         return sourceMapText!;
       default:
         throw new Error(`Unexpected path: ${path}`);
     }
-  };
+  }
 
   const { generate } = await rollup({
     input: outputPath,
@@ -49,7 +48,9 @@ async function rollupBundle({
     plugins: [
       { name: 'skip-checks', resolveId: path => path },
       sourcemaps({
-        readFile: util.callbackify(load),
+        async readFile(path: string) {
+          return load(path);
+        },
         ...pluginOptions,
       }),
       { name: 'fake-fs', load },
@@ -82,8 +83,8 @@ it('ignores files with no source maps', async () => {
   const { map } = await rollupBundle({ outputText, sourceMapText });
 
   expect(map).toBeDefined();
-  expect(map!.sources).toStrictEqual([outputPath]);
-  expect(map!.sourcesContent).toStrictEqual([outputText]);
+  expect(map?.sources.map(path.normalize)).toStrictEqual([outputPath]);
+  expect(map?.sourcesContent).toStrictEqual([outputText]);
 });
 
 describe('detects files with source maps', () => {
@@ -123,8 +124,8 @@ describe('detects files with source maps', () => {
       const { map } = await rollupBundle({ outputText, sourceMapText });
 
       expect(map).toBeDefined();
-      expect(map!.sources).toStrictEqual([inputPath]);
-      expect(map!.sourcesContent).toStrictEqual([inputText]);
+      expect(map?.sources.map(path.normalize)).toStrictEqual([inputPath]);
+      expect(map?.sourcesContent).toStrictEqual([inputText]);
     },
   );
 });
@@ -150,8 +151,8 @@ describe('ignores filtered files', () => {
     });
 
     expect(map).toBeDefined();
-    expect(map!.sources).toStrictEqual([outputPath]);
-    expect(map!.sourcesContent).toStrictEqual([outputText]);
+    expect(map?.sources.map(path.normalize)).toStrictEqual([outputPath]);
+    expect(map?.sourcesContent).toStrictEqual([outputText]);
   });
 
   test('excluded', async () => {
@@ -169,13 +170,13 @@ describe('ignores filtered files', () => {
       outputText,
       sourceMapText,
       pluginOptions: {
-        exclude: [path.relative(process.cwd(), outputPath)],
+        exclude: [path.relative(process.cwd(), outputPath).split(path.sep).join(path.posix.sep)],
       },
     });
 
     expect(map).toBeDefined();
-    expect(map!.sources).toStrictEqual([outputPath]);
-    expect(map!.sourcesContent).toStrictEqual([outputText]);
+    expect(map?.sources.map(path.normalize)).toStrictEqual([outputPath]);
+    expect(map?.sourcesContent).toStrictEqual([outputText]);
   });
 });
 
@@ -194,15 +195,15 @@ it('delegates failing file reads to the next plugin', async () => {
     outputText,
     sourceMapText,
     pluginOptions: {
-      readFile(_path, cb) {
-        cb(new Error('Failed!'), '');
+      async readFile() {
+        throw new Error('Failed!');
       },
     },
   });
 
   expect(map).toBeDefined();
-  expect(map!.sources).toStrictEqual([outputPath]);
-  expect(map!.sourcesContent).toStrictEqual([outputText]);
+  expect(map?.sources.map(path.normalize)).toStrictEqual([outputPath]);
+  expect(map?.sourcesContent).toStrictEqual([outputText]);
 });
 
 it('handles failing source maps reads', async () => {
@@ -220,20 +221,20 @@ it('handles failing source maps reads', async () => {
     outputText,
     sourceMapText,
     pluginOptions: {
-      readFile: util.callbackify(async (path: string) => {
-        switch (path) {
-          case inputPath:
+      async readFile(path: string) {
+        switch (path.toLowerCase()) {
+          case inputPath.toLowerCase():
             return inputText;
-          case outputPath:
+          case outputPath.toLowerCase():
             return outputText;
           default:
             throw new Error(`Unexpected path: ${path}`);
         }
-      }),
+      },
     },
   });
 
   expect(map).toBeDefined();
-  expect(map!.sources).toStrictEqual([outputPath]);
-  expect(map!.sourcesContent).toStrictEqual([outputText]);
+  expect(map?.sources.map(path.normalize)).toStrictEqual([outputPath]);
+  expect(map?.sourcesContent).toStrictEqual([outputText]);
 });

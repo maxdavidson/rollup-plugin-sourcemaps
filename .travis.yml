@@ -1,9 +1,14 @@
 language: node_js
+os:
+  - linux
+  - windows
 node_js:
   - lts/dubnium
   - lts/erbium
-  - stable
+  - node
 cache: npm
+git:
+  autocrlf: input
 script:
   - npm run typecheck
   - npm run lint

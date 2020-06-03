@@ -1,9 +1,11 @@
 // @ts-check
 import typescript from '@rollup/plugin-typescript';
 
+import packageJson from './package.json';
+
 export default /** @type {import('rollup').RollupOptions} */ ({
   input: 'src/index.ts',
-  external: () => true,
+  external: Object.values(packageJson.dependencies),
   plugins: [typescript()],
   output: [
     {
