@@ -17,6 +17,7 @@ export default /** @type {import('rollup').RollupOptions} */ ({
       format: 'cjs',
       sourcemap: true,
       entryFileNames: '[name].cjs',
+      exports: 'default',
     },
   ],
 });
