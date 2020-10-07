@@ -11,7 +11,9 @@ Inspired by [webpack/source-map-loader](https://github.com/webpack/source-map-lo
 Works with rollup 0.31.2 or later.
 
 If you use [rollup-plugin-babel](https://github.com/rollup/rollup-plugin-babel),
-you might be able to use the [`inputSourceMap`](https://babeljs.io/docs/en/options#inputsourcemap) option instead of this plugin.
+you might be able to use the [`inputSourceMap`](https://babeljs.io/docs/en/options#inputsourcemap) option instead of this plugin. Conversely, if you use this plugin alongside `rollup-plugin-babel`, you should explicitly set the Babel `inputSourceMap` option to `false`.
+
+If this plugin is not resolving the sourcemap URL (particularly on MS Windows), try also including the official rollup plugin [@rollup/plugin-url](https://github.com/rollup/plugins/tree/master/packages/url).
 
 ## Why?
 
