@@ -9,7 +9,9 @@
     "sourceMap": true,
     "inlineSources": true,
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "lib": ["ESNext"],
+    "allowSyntheticDefaultImports": true,
   },
   "include": ["src"],
   "exclude": ["node_modules"]
