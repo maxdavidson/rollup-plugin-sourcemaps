@@ -23,6 +23,16 @@ const sourceMapPath = path.format({
   ext: '.js.map',
 });
 
+function comparePath(a: string, b: string): boolean {
+  const first = a.split(/[\\/]/);
+  const second = b.split(/[\\/]/);
+  if (process.platform == 'win32') {
+    first[0] = first[0].toLowerCase();
+    second[0] = second[0].toLowerCase();
+  }
+  return first.every((v, i) => v == second[i]);
+}
+
 async function rollupBundle({
   outputText,
   sourceMapText,
@@ -31,16 +41,14 @@ async function rollupBundle({
   pluginOptions?: SourcemapsPluginOptions;
 }) {
   const load = async (path: string) => {
-    switch (path) {
-      case inputPath:
-        return inputText;
-      case outputPath:
-        return outputText;
-      case sourceMapPath:
-        return sourceMapText!;
-      default:
-        throw new Error(`Unexpected path: ${path}`);
+    if (comparePath(path, inputPath)) {
+      return inputText;
+    } else if (comparePath(path, outputPath)) {
+      return outputText;
+    } else if (comparePath(path, sourceMapPath)) {
+      return sourceMapText!;
     }
+    throw new Error(`Unexpected path: ${path}`);
   };
 
   const { generate } = await rollup({
@@ -82,7 +90,7 @@ it('ignores files with no source maps', async () => {
   const { map } = await rollupBundle({ outputText, sourceMapText });
 
   expect(map).toBeDefined();
-  expect(map!.sources).toStrictEqual([outputPath]);
+  expect(map!.sources.map(path.normalize)).toStrictEqual([outputPath]);
   expect(map!.sourcesContent).toStrictEqual([outputText]);
 });
 
@@ -123,7 +131,7 @@ describe('detects files with source maps', () => {
       const { map } = await rollupBundle({ outputText, sourceMapText });
 
       expect(map).toBeDefined();
-      expect(map!.sources).toStrictEqual([inputPath]);
+      expect(map!.sources.map(path.normalize)).toStrictEqual([inputPath]);
       expect(map!.sourcesContent).toStrictEqual([inputText]);
     },
   );
@@ -150,7 +158,7 @@ describe('ignores filtered files', () => {
     });
 
     expect(map).toBeDefined();
-    expect(map!.sources).toStrictEqual([outputPath]);
+    expect(map!.sources.map(path.normalize)).toStrictEqual([outputPath]);
     expect(map!.sourcesContent).toStrictEqual([outputText]);
   });
 
@@ -169,12 +177,12 @@ describe('ignores filtered files', () => {
       outputText,
       sourceMapText,
       pluginOptions: {
-        exclude: [path.relative(process.cwd(), outputPath)],
+        exclude: [path.relative(process.cwd(), outputPath).split('\\').join('/')],
       },
     });
 
     expect(map).toBeDefined();
-    expect(map!.sources).toStrictEqual([outputPath]);
+    expect(map!.sources.map(path.normalize)).toStrictEqual([outputPath]);
     expect(map!.sourcesContent).toStrictEqual([outputText]);
   });
 });
@@ -194,14 +202,14 @@ it('delegates failing file reads to the next plugin', async () => {
     outputText,
     sourceMapText,
     pluginOptions: {
-      readFile(_path, cb) {
+      readFile(_path: string, cb: (error: Error | null, data: Buffer | string) => void) {
         cb(new Error('Failed!'), '');
       },
     },
   });
 
   expect(map).toBeDefined();
-  expect(map!.sources).toStrictEqual([outputPath]);
+  expect(map!.sources.map(path.normalize)).toStrictEqual([outputPath]);
   expect(map!.sourcesContent).toStrictEqual([outputText]);
 });
 
@@ -234,6 +242,6 @@ it('handles failing source maps reads', async () => {
   });
 
   expect(map).toBeDefined();
-  expect(map!.sources).toStrictEqual([outputPath]);
+  expect(map!.sources.map(path.normalize)).toStrictEqual([outputPath]);
   expect(map!.sourcesContent).toStrictEqual([outputText]);
 });

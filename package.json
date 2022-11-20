@@ -1,6 +1,6 @@
 {
-  "name": "rollup-plugin-sourcemaps",
-  "version": "0.6.3",
+  "name": "rollup-plugin-include-sourcemaps",
+  "version": "0.7.0",
   "description": "Rollup plugin for grabbing source maps from sourceMappingURLs",
   "author": "Max Davidson <davidsonmax@gmail.com>",
   "license": "MIT",
@@ -16,7 +16,7 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/maxdavidson/rollup-plugin-sourcemaps"
+    "url": "https://github.com/IIIMADDINIII/rollup-plugin-include-sourcemaps"
   },
   "engines": {
     "node": ">=10.0.0"
@@ -40,12 +40,15 @@
     "dist"
   ],
   "dependencies": {
-    "@rollup/pluginutils": "^3.0.9",
-    "source-map-resolve": "^0.6.0"
+    "@rollup/pluginutils": "^5.0.2",
+    "decode-uri-component": "^0.2.0",
+    "atob": "^2.1.2"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "6.0.0",
-    "@types/node": "^10.17.21",
+    "@types/node": "^18.11.9",
+    "@types/decode-uri-component": "^0.2.0",
+    "@types/atob": "^2.1.2",
     "@typescript-eslint/eslint-plugin": "^4.0.0",
     "@typescript-eslint/parser": "^4.0.0",
     "eslint": "^7.1.0",
