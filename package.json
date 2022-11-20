@@ -1,5 +1,5 @@
 {
-  "name": "rollup-plugin-sourcemaps",
+  "name": "rollup-plugin-source-maps",
   "version": "0.7.0",
   "description": "Rollup plugin for grabbing source maps from sourceMappingURLs",
   "author": "Max Davidson <davidsonmax@gmail.com>",
@@ -16,7 +16,7 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/maxdavidson/rollup-plugin-sourcemaps"
+    "url": "https://github.com/IIIMADDINIII/rollup-plugin-source-maps"
   },
   "engines": {
     "node": ">=10.0.0"
