@@ -99,11 +99,7 @@ describe('detects files with source maps', () => {
       sourceMap,
       inlineSourceMap,
       inlineSources,
-    }: {
-      sourceMap: boolean;
-      inlineSourceMap: boolean;
-      inlineSources: boolean;
-    }) => {
+    }: Record<string, boolean>) => {
       const { outputText, sourceMapText } = ts.transpileModule(inputText, {
         fileName: inputPath,
         compilerOptions: {
