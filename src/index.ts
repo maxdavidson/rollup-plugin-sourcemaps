@@ -36,8 +36,13 @@ export default function sourcemaps({
       try {
         code = (await promisifiedReadFile(id)).toString();
       } catch {
-        this.warn('Failed reading file');
-        return null;
+        try {
+          // Try without a query suffix that some plugins use
+          code = (await promisifiedReadFile(id.replace(/\?.*$/, ''))).toString();
+        } catch (e) {
+          this.warn(`Failed reading file: ${e}`);
+          return null;
+        }
       }
 
       let map: ExistingRawSourceMap;
