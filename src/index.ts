@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { resolve as resolvePath } from 'path';
 import { promisify } from 'util';
 import { Plugin, ExistingRawSourceMap } from 'rollup';
 import pluginUtils, { CreateFilter } from '@rollup/pluginutils';
@@ -32,7 +33,9 @@ export default function sourcemaps({
         return null;
       }
 
-      let code: string;
+      // Allow the original file to be watched
+      this.addWatchFile(resolvePath(id));
+
       try {
         code = (await promisifiedReadFile(id)).toString();
       } catch {
